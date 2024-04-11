@@ -1,5 +1,5 @@
 {
-  "name": "MicelioAPI",
+  "name": "micelioapi",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -32,6 +32,6 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.11",
     "@types/jsonwebtoken": "^8.5.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.22"
   }
 }

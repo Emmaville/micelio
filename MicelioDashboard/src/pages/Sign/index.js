@@ -29,7 +29,7 @@ function Sign() {
     }*/
 
     try{
-      const userResponse = await Api.post('/user', {username, email, password, confirmation_password: passwordConfirm});
+      const userResponse = await Api.post('api/user', {username, email, password, confirmation_password: passwordConfirm});
       if(userResponse.status !== 201) {
         alert('Erro ao criar usuário');
         return;

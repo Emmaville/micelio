@@ -1,47 +1,54 @@
-import React from "react";
-import {useHistory} from 'react-router-dom';
-import './style.css';
-import Api from "../../services/Api";
-import {useAuth} from "../../context/AuthContext";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Flex, Box, Button } from '@chakra-ui/react';
+import Api from '../../services/Api';
 
-const MainMenu = ({selected}) => {
+const MainMenu = () => {
+  const [isLoading, setIsLoading] = useState(true); // Removido setIsLoading
+  const [isAuth, setIsAuth] = useState(false); // Removido isAuth
 
-  const history = useHistory();
-  const { setAuth, setIsLoading, isAuth } = useAuth()
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await Api.get('/check-auth');
+        setIsAuth(response.data.isAuth);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        setIsLoading(false);
+      }
+    };
 
-  const MenuOption = ({topic, text}) =>{
-    return (
-      <li onClick={()=>{doNavigation(topic)}}
-          className={(selected === topic) ? 'selected' : ''}
-          >{text}</li>
-    );
-  }
-
-  const doNavigation = (menuOption) => {
-    history.push(`/${menuOption}`);
-  }
-
-  const doExit = async () => {
-    try{
-      await Api.delete('/user/login')
-      setAuth(false)
-      history.replace(`/`);
-
-    }catch (e) {
-
-    }
-  }
+    checkAuthStatus();
+  }, []);
 
   return (
-    <aside className={'aside-menu'}>
-      <ul>
-        <MenuOption topic="home" text="Inicio"/>
-        <MenuOption topic="sobre" text="Sobre"/>
-        <MenuOption topic="profile" text="Perfil"/>
-        <li onClick={doExit}>Sair</li>
-      </ul>
-    </aside>
-  )
-}
+    <Flex justify="space-between" align="center" p="4">
+      <Box>
+        <Link to="/">
+          <Button variant="link">Home</Button>
+        </Link>
+        <Link to="/dashboard">
+          <Button variant="link">Dashboard</Button>
+        </Link>
+      </Box>
+      <Box>
+        {!isLoading && (
+          <>
+            {isAuth ? (
+              <Link to="/logout">
+                <Button>Logout</Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button>Login</Button>
+              </Link>
+            )}
+          </>
+        )}
+      </Box>
+    </Flex>
+  );
+};
 
 export default MainMenu;

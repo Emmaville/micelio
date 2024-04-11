@@ -1,6 +1,7 @@
 const knex = require('knex');
 require('dotenv').config();
 
+
 const connection = knex({
     client: process.env.DATABASE_CLIENT,
     connection: {

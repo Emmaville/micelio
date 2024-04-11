@@ -4,7 +4,7 @@ require('dotenv').config();
 module.exports = {
     client: process.env.DATABASE_CLIENT,
     connection:{
-        client: process.env.DATABASE_CLIENT,
+        client: process.env.DATABASE_CLIENT, //why do we have 2 client?
         host : process.env.DATABASE_HOST,
         user : process.env.DATABASE_USER,
         password : process.env.DATABASE_PASSWORD,
